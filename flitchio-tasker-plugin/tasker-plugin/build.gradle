@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1" // Issue: https://goo.gl/ed1urf
+
+    defaultConfig {
+        applicationId "com.supenta.flitchio.taskerplugin"
+        minSdkVersion 17
+        targetSdkVersion 22
+
+        versionName "0.6.0"
+        versionCode 600
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.pro'
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            applicationIdSuffix ".debug"
+        }
+    }
+}
+
+dependencies {
+    compile project(':libs:localeApi')
+    compile 'com.supenta.flitchio:sdk:0.5.1'
+
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
+    compile 'com.android.support:design:22.2.1'
+}

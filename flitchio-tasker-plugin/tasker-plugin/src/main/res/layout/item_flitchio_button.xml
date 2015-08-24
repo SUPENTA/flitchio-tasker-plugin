@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/flitchio_button_selector"
+    android:orientation="horizontal"
+    android:padding="@dimen/layout_standard_inner_padding"
+    tools:context=".lists.ButtonListAdapter.ButtonViewHolder">
+
+    <TextView
+        android:id="@+id/txt_flitchio_button_label"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_subhead_size" />
+</LinearLayout>

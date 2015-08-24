@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_subhead_size">16sp</dimen>
+
+    <dimen name="layout_standard_inner_padding">16dp</dimen>
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin_bottom_toolbar">28dp</dimen>
+    <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="fab_elevation_pressed">12dp</dimen>
+</resources>

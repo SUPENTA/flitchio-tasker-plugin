@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.supenta.flitchio.taskerplugin">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/FlitchioTaskerTheme">
+
+        <activity
+            android:name="com.supenta.flitchio.taskerplugin.activities.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.supenta.flitchio.taskerplugin.activities.EditActivity"
+            android:label="@string/title_activity_edit">
+
+            <!-- This Intent filter allows the plug-in to be discovered by Tasker -->
+            <intent-filter>
+                <action android:name="net.dinglisch.android.tasker.ACTION_EDIT_EVENT" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.supenta.flitchio.taskerplugin.receiver.QueryReceiver"
+            android:exported="true"
+            android:process=":background"
+            tools:ignore="ExportedReceiver">
+
+            <!-- This Intent filter allows the plug-in to discovered by Tasker and be queried -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.supenta.flitchio.taskerplugin.services.FlitchioBindingService"
+            android:exported="false"
+            android:process=":background" />
+    </application>
+
+</manifest>

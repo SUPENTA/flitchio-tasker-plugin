@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/launch_flitchio"
+        android:icon="@drawable/ic_action_flitchio_launcher_white"
+        android:title="@string/toolbar_flitchio_launcher"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/launch_tasker"
+        android:icon="@drawable/ic_notif_connected_white"
+        android:title="@string/toolbar_tasker_launcher"
+        app:showAsAction="ifRoom" />
+</menu>

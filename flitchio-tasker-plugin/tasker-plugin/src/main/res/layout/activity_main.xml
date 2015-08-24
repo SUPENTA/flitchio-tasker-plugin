@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_flitchio_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/img_flitchio_logo_description"
+            android:paddingTop="@dimen/layout_standard_inner_padding"
+            android:src="@drawable/flitchio_logo" />
+
+
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_flitchio_logo"
+            android:paddingEnd="@dimen/layout_standard_inner_padding"
+            android:paddingStart="@dimen/layout_standard_inner_padding"
+            android:paddingTop="48dp"
+            android:scrollbars="vertical"
+            android:text="@string/flitchio_tasker_plugin_welcome"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_subhead_size" />
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/colorPrimary"
+                android:minHeight="?attr/actionBarSize">
+
+                <android.support.v7.widget.ActionMenuView
+                    android:id="@+id/action_menu_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize" />
+            </android.support.v7.widget.Toolbar>
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_launch_binding_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="@dimen/fab_margin_bottom_toolbar"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:layout_marginTop="48dp"
+                android:onClick="startBindingService"
+                android:src="@drawable/ic_fab_power_white"
+                app:elevation="@dimen/fab_elevation"
+                app:pressedTranslationZ="@dimen/fab_elevation_pressed" />
+        </android.support.design.widget.CoordinatorLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>
