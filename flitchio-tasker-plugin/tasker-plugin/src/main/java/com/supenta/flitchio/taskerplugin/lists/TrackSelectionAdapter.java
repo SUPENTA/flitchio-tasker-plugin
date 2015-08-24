@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 
+import timber.log.Timber;
+
 /**
  * Taken from http://goo.gl/vkm1b1 and slightly modified this provides us with an Adapter which holds
  * the currently selected item. This can also easily be transformed to multi-selection.
@@ -49,14 +51,21 @@ public abstract class TrackSelectionAdapter<VH extends TrackSelectionAdapter.Vie
 
         // If still within valid bounds, move the selection, notify to redraw, and scroll
         if (nextSelectItem >= 0 && nextSelectItem < getItemCount()) {
-            notifyItemChanged(selectedItem);
-            selectedItem = nextSelectItem;
-            notifyItemChanged(selectedItem);
+            changeSelectionAndNotify(nextSelectItem);
             lm.scrollToPosition(selectedItem);
             return true;
         }
 
         return false;
+    }
+
+    private void changeSelectionAndNotify(final int nextSelectItem) {
+        Timber.d("Previous selection: %d" +
+                "\nNext selection: %d ", selectedItem, nextSelectItem);
+
+        notifyItemChanged(selectedItem);
+        selectedItem = nextSelectItem;
+        notifyItemChanged(selectedItem);
     }
 
     @Override
@@ -74,9 +83,7 @@ public abstract class TrackSelectionAdapter<VH extends TrackSelectionAdapter.Vie
                 @Override
                 public void onClick(View v) {
                     // Redraw the old selection and the new
-                    notifyItemChanged(selectedItem);
-                    selectedItem = getAdapterPosition();
-                    notifyItemChanged(selectedItem);
+                    changeSelectionAndNotify(getAdapterPosition());
                 }
             });
         }

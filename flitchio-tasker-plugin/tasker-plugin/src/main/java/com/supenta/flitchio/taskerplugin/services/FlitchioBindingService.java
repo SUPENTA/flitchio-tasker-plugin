@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.supenta.flitchio.sdk.ButtonEvent;
 import com.supenta.flitchio.sdk.FlitchioController;
@@ -17,6 +16,8 @@ import com.supenta.flitchio.sdk.InputElement;
 import com.supenta.flitchio.sdk.JoystickEvent;
 import com.supenta.flitchio.taskerplugin.activities.EditActivity;
 import com.supenta.flitchio.taskerplugin.utils.TaskerPlugin;
+
+import timber.log.Timber;
 
 /**
  * This Service is used in order to bind to the Flitchio SDK since we want constant binding to
@@ -51,13 +52,17 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
     public void onCreate() {
         super.onCreate();
 
+        Timber.v("Created");
+
         disconnectReceiver = new DisconnectReceiver();
         notification = new ServiceNotification(this);
         flitchio = FlitchioController.getInstance(this);
         try {
+            Timber.v("Creating Flitchio");
+
             flitchio.onCreate();
         } catch (FlitchioManagerDependencyException e) {
-            Log.e(TAG, e.getMessage());
+            Timber.e(e.getMessage());
         }
 
         sendBroadcast(new Intent(ACTION_SERVICE_STARTED));
@@ -65,6 +70,8 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Timber.v("Started");
+
         registerReceiver(disconnectReceiver, disconnectReceiver.getIntentFilter());
 
         notification.showDisconnectedNotification();
@@ -75,6 +82,8 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     @Override
     public void onDestroy() {
+        Timber.v("Destroyed");
+
         unregisterReceiver(disconnectReceiver);
 
         notification.stop();
@@ -89,11 +98,15 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     @Override
     public IBinder onBind(Intent intent) {
+        Timber.v("Binding from: " + intent);
+
         return null;
     }
 
     @Override
     public void onFlitchioButtonEvent(InputElement.Button button, ButtonEvent buttonEvent) {
+        Timber.d("Button pressed: " + button.name);
+
         sendToTasker(button.name);
     }
 
@@ -118,6 +131,8 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     @Override
     public void onFlitchioStatusChanged(boolean isConnected) {
+        Timber.i("Flitchio is now " + (isConnected ? "connected" : "disconnected"));
+
         if (isConnected) {
             notification.showConnectedNotification();
         } else {
@@ -133,6 +148,8 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Timber.d("Action received: " + intent.getAction());
+
             stopSelf();
         }
     }

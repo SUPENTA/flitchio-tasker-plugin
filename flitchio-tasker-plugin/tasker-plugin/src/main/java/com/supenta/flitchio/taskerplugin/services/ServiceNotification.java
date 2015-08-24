@@ -8,6 +8,8 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.supenta.flitchio.taskerplugin.R;
 
+import timber.log.Timber;
+
 /**
  * A notification for keeping alive the {@link FlitchioBindingService}.
  */
@@ -19,6 +21,8 @@ class ServiceNotification {
     private final NotificationCompat.Builder builder;
 
     ServiceNotification(final Service service) {
+        Timber.v("Notification created");
+
         this.service = service;
         this.manager = NotificationManagerCompat.from(service);
 
@@ -41,6 +45,8 @@ class ServiceNotification {
     }
 
     void showConnectedNotification() {
+        Timber.i("Showing connected notification");
+
         builder.setSmallIcon(R.drawable.ic_notif_connected_white)
                 .setContentText(service.getString(R.string.notification_flitchio_connected));
 
@@ -48,6 +54,8 @@ class ServiceNotification {
     }
 
     void showDisconnectedNotification() {
+        Timber.i("Showing disconnected notification");
+
         builder.setSmallIcon(R.drawable.ic_notif_disconnected_white)
                 .setContentText(service.getString(R.string.notification_flitchio_disconnected));
 
@@ -55,6 +63,8 @@ class ServiceNotification {
     }
 
     void stop() {
+        Timber.i("Cancelling notification");
+
         manager.cancelAll();
     }
 }

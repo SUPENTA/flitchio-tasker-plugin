@@ -9,6 +9,8 @@ import com.supenta.flitchio.taskerplugin.activities.EditActivity;
 import com.supenta.flitchio.taskerplugin.utils.BundleScrubber;
 import com.supenta.flitchio.taskerplugin.utils.TaskerPlugin;
 
+import timber.log.Timber;
+
 /**
  * This is the "query" BroadcastReceiver for a Locale Plug-in condition. When Tasker wants to query
  * our plugin he sends a broadcast and listens for the result of the broadcast. If the result code
@@ -36,18 +38,31 @@ public final class QueryReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(final Context context, final Intent intent) {
+        Timber.v("Incoming intent: " + intent);
+
         if (!com.twofortyfouram.locale.Intent.ACTION_QUERY_CONDITION.equals(intent.getAction())) {
+            Timber.w("Incoming intent was not from Tasker");
+
             return;
         }
 
         BundleScrubber.scrub(intent);
 
         final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
+
+        Timber.d("Extra bundle from Tasker: " + bundle);
+
         BundleScrubber.scrub(bundle);
 
         final Bundle bundleFromSelectedButton = intent.getExtras();
         final Bundle bundleFromListener = TaskerPlugin.Event.retrievePassThroughData(intent);
+
+        Timber.d("Bundle from EditActivity: %s" +
+                "\nBundle from Service: %s", bundleFromSelectedButton, bundleFromListener);
+
         if (bundleFromSelectedButton == null || bundleFromListener == null) {
+            Timber.w("Invalid bundles");
+
             return;
         }
 
@@ -55,11 +70,19 @@ public final class QueryReceiver extends BroadcastReceiver {
                 = bundleFromSelectedButton.getString(EditActivity.TASKER_BUNDLE_KEY_FLITCHIO_SELECTED_BUTTON);
         final String buttonFromListener
                 = bundleFromListener.getString(EditActivity.TASKER_BUNDLE_KEY_FLITCHIO_SELECTED_BUTTON);
+
+        Timber.d("Button from EditActivity: %s" +
+                "\nButton from Service: %s", selectedButton, buttonFromListener);
+
         if (selectedButton == null || buttonFromListener == null) {
+            Timber.w("Invalid buttons");
+
             return;
         }
 
         if (buttonFromListener.equals(selectedButton)) {
+            Timber.i("Condition is triggered");
+
             setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
         }
     }

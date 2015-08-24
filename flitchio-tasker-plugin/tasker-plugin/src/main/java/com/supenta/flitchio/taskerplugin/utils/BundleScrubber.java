@@ -3,6 +3,8 @@ package com.supenta.flitchio.taskerplugin.utils;
 import android.content.Intent;
 import android.os.Bundle;
 
+import timber.log.Timber;
+
 /**
  * Helper class to scrub Bundles of invalid extras. This is a workaround for an Android bug:
  * http://code.google.com/p/android/issues/detail?id=16006 .
@@ -45,6 +47,8 @@ public final class BundleScrubber {
             // If a private serializable exists, this will throw an exception
             bundle.containsKey(null);
         } catch (final Exception e) {
+            Timber.i("Bundle was scrubbed");
+
             bundle.clear();
         }
     }

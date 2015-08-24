@@ -21,6 +21,8 @@ import com.supenta.flitchio.taskerplugin.R;
 import com.supenta.flitchio.taskerplugin.services.FlitchioBindingService;
 import com.supenta.flitchio.taskerplugin.utils.ServiceUtils;
 
+import timber.log.Timber;
+
 /**
  * This acts as an introductory Activity in order to give the user some simple instructions as well
  * as a quick way to restart the {@link FlitchioBindingService}.
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Timber.v("Created");
 
         setContentView(R.layout.activity_main);
 
@@ -73,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
+        Timber.v("Options created");
+
         getMenuInflater().inflate(R.menu.menu_main_activity, actionMenuView.getMenu());
 
         return true;
@@ -81,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        Timber.v("Resumed");
 
         registerReceiver(serviceStatusReceiver, serviceStatusReceiver.getIntentFilter());
 
@@ -96,13 +104,20 @@ public class MainActivity extends AppCompatActivity {
         Intent launchIntent = null;
         final int id = item.getItemId();
         if (id == R.id.launch_flitchio) {
+            Timber.d("The Flitchio Manager button was pressed");
+
             launchIntent = getPackageManager().getLaunchIntentForPackage(PACKAGE_NAME_FLITCHIO_MANAGER);
         } else if (id == R.id.launch_tasker) {
+            Timber.d("The Tasker button was pressed");
+
             launchIntent = getPackageManager().getLaunchIntentForPackage(PACKAGE_NAME_TASKER);
         }
 
         if (launchIntent != null) {
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            Timber.i("Launching: " + launchIntent);
+
             startActivity(launchIntent);
         }
 
@@ -111,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
+        Timber.v("Paused");
+
         unregisterReceiver(serviceStatusReceiver);
 
         super.onPause();
@@ -118,12 +135,14 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Even though starting a Service twice does no obvious harm, it re-allocates the memory needed
-     * making the possibility of the GC kicking in higher.
+     * making the possibility of the GC kicking in during a bad time higher.
      *
      * @param view
      */
     @SuppressWarnings("UnusedParameters")
     public void startBindingService(View view) {
+        Timber.v("Service start button was clicked");
+
         if (!ServiceUtils.isServiceRunning(this, FlitchioBindingService.class)) {
             startService(new Intent(this, FlitchioBindingService.class));
         }
@@ -158,6 +177,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+
+            Timber.d("Action received: " + action);
+
             if (action.equals(FlitchioBindingService.ACTION_SERVICE_STARTED)) {
                 Snackbar.make(toolbarBottom, R.string.snack_connection_started, Snackbar.LENGTH_LONG).show();
                 mainThreadHandler.postDelayed(new Runnable() {

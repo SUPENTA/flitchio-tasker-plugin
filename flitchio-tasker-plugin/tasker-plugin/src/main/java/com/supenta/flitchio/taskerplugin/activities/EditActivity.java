@@ -18,6 +18,8 @@ import com.supenta.flitchio.taskerplugin.lists.ButtonListAdapter;
 import com.supenta.flitchio.taskerplugin.services.FlitchioBindingService;
 import com.supenta.flitchio.taskerplugin.utils.ServiceUtils;
 
+import timber.log.Timber;
+
 /**
  * This Activity will be started by Tasker when the "Edit" button is pressed in the plugin interface.
  * Tasker has the ability to do this due to the intent filter assigned in the manifest.
@@ -39,6 +41,8 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Timber.v("Created");
 
         setContentView(R.layout.activity_edit);
 
@@ -65,6 +69,8 @@ public class EditActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        Timber.v("Resumed");
+
         registerReceiver(serviceStatusReceiver, serviceStatusReceiver.getIntentFilter());
 
         if (!ServiceUtils.isServiceRunning(this, FlitchioBindingService.class)) {
@@ -78,6 +84,8 @@ public class EditActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
+        Timber.v("Back pressed");
+
         if (!listAdapter.hasAtLeastOneSelection()) {
             Snackbar.make(fabDone, R.string.snack_please_select_button, Snackbar.LENGTH_SHORT).show();
             return;
@@ -85,6 +93,7 @@ public class EditActivity extends AppCompatActivity {
 
         super.onBackPressed();
     }
+
     @SuppressWarnings("UnusedParameters")
     public void onBackPressed(View view) {
         onBackPressed();
@@ -92,6 +101,8 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        Timber.v("Paused");
+
         unregisterReceiver(serviceStatusReceiver);
 
         super.onPause();
@@ -103,6 +114,8 @@ public class EditActivity extends AppCompatActivity {
      */
     @Override
     public void finish() {
+        Timber.v("Finished");
+
         Bundle selectedButtonBundle = new Bundle();
         selectedButtonBundle.putString(TASKER_BUNDLE_KEY_FLITCHIO_SELECTED_BUTTON, listAdapter.getSelectedButtonId());
 
@@ -133,6 +146,9 @@ public class EditActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+
+            Timber.d("Action received: " + action);
+
             if (action.equals(FlitchioBindingService.ACTION_SERVICE_STARTED)) {
                 Snackbar.make(fabDone, R.string.snack_connection_started, Snackbar.LENGTH_LONG).show();
             } else if (action.equals(FlitchioBindingService.ACTION_SERVICE_STOPPED)) {
