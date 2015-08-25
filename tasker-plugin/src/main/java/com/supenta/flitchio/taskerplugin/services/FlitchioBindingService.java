@@ -35,7 +35,6 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     public static final String ACTION_STOP_SERVICE
             = "com.supenta.flitchio.taskerplugin.ACTION_STOP_SERVICE";
-    private static final String TAG = "FlitchioBindingService";
 
     /**
      * Intent used for the request of the query on Tasker.
@@ -62,7 +61,7 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
             flitchio.onCreate();
         } catch (FlitchioManagerDependencyException e) {
-            Timber.e(e.getMessage());
+            Timber.e(e, "Flitchio could not be created");
         }
 
         sendBroadcast(new Intent(ACTION_SERVICE_STARTED));
@@ -70,7 +69,7 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Timber.v("Started");
+        Timber.v("onStart by intent: " + intent);
 
         registerReceiver(disconnectReceiver, disconnectReceiver.getIntentFilter());
 

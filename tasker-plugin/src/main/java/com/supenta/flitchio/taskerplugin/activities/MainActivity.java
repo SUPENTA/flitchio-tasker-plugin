@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
         Timber.v("Options created");
 
-        getMenuInflater().inflate(R.menu.menu_main_activity, actionMenuView.getMenu());
+        getMenuInflater().inflate(R.menu.menu_main_activity_bottom, actionMenuView.getMenu());
+        getMenuInflater().inflate(R.menu.menu_activities_top, menu);
 
         return true;
     }
@@ -101,25 +102,34 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent launchIntent = null;
-        final int id = item.getItemId();
-        if (id == R.id.launch_flitchio) {
-            Timber.d("The Flitchio Manager button was pressed");
+        Intent launchIntent;
+        switch (item.getItemId()) {
+            case R.id.launch_flitchio:
+                Timber.d("The Flitchio Manager button was pressed");
 
-            launchIntent = getPackageManager().getLaunchIntentForPackage(PACKAGE_NAME_FLITCHIO_MANAGER);
-        } else if (id == R.id.launch_tasker) {
-            Timber.d("The Tasker button was pressed");
+                launchIntent = getPackageManager().getLaunchIntentForPackage(PACKAGE_NAME_FLITCHIO_MANAGER);
+                break;
+            case R.id.launch_tasker:
+                Timber.d("The Tasker button was pressed");
 
-            launchIntent = getPackageManager().getLaunchIntentForPackage(PACKAGE_NAME_TASKER);
+                launchIntent = getPackageManager().getLaunchIntentForPackage(PACKAGE_NAME_TASKER);
+                break;
+            case R.id.settings:
+                Timber.d("The Settings button was pressed");
+
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
+            default:
+                Timber.wtf("Unknown button was pressed: " + item);
+
+                return super.onOptionsItemSelected(item);
         }
 
-        if (launchIntent != null) {
-            launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            Timber.i("Launching: " + launchIntent);
+        Timber.i("Launching: " + launchIntent);
 
-            startActivity(launchIntent);
-        }
+        startActivity(launchIntent);
 
         return true;
     }

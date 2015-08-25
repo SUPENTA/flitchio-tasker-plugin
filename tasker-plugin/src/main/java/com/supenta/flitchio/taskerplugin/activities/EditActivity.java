@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.supenta.flitchio.taskerplugin.R;
@@ -58,6 +60,32 @@ public class EditActivity extends AppCompatActivity {
         fabDone = (FloatingActionButton) findViewById(R.id.fab_done);
 
         serviceStatusReceiver = new ServiceStatusReceiver();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        Timber.v("onCreateOptions");
+
+        getMenuInflater().inflate(R.menu.menu_activities_top, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Timber.d("The Settings button was pressed");
+
+                startActivity(new Intent(EditActivity.this, SettingsActivity.class));
+                return true;
+            default:
+                Timber.wtf("Unknown button was pressed: " + item);
+
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:checked="true"
+        android:defaultValue="true"
+        android:key="PREF_TOGGLE_WITH_FLITCHIO"
+        android:title="@string/settings_launch_with_flitchio_title" />
+</PreferenceScreen>
