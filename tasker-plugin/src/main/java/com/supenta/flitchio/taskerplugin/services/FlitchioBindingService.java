@@ -35,7 +35,6 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     public static final String ACTION_STOP_SERVICE
             = "com.supenta.flitchio.taskerplugin.ACTION_STOP_SERVICE";
-    private static final String TAG = "FlitchioBindingService";
 
     /**
      * Intent used for the request of the query on Tasker.

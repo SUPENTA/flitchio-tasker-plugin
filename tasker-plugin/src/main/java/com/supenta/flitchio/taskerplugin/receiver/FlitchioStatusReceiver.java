@@ -17,10 +17,10 @@ import timber.log.Timber;
  */
 public class FlitchioStatusReceiver extends BroadcastReceiver {
 
-    public static final String ACTION_FLITCHIO_CONNECTED =
+    private static final String ACTION_FLITCHIO_CONNECTED =
             "com.supenta.flitchio.manager.communication.ACTION_FLITCHIO_CONNECTED";
 
-    public static final String ACTION_FLITCHIO_DISCONNECTED =
+    private static final String ACTION_FLITCHIO_DISCONNECTED =
             "com.supenta.flitchio.manager.communication.ACTION_FLITCHIO_DISCONNECTED";
 
     @Override
