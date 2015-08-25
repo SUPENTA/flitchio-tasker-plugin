@@ -62,7 +62,7 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
             flitchio.onCreate();
         } catch (FlitchioManagerDependencyException e) {
-            Timber.e(e.getMessage());
+            Timber.e(e, "Flitchio could not be created");
         }
 
         sendBroadcast(new Intent(ACTION_SERVICE_STARTED));
