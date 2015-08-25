@@ -11,7 +11,7 @@
         android:theme="@style/FlitchioTaskerTheme">
 
         <activity
-            android:name="com.supenta.flitchio.taskerplugin.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name="com.supenta.flitchio.taskerplugin.activities.EditActivity"
+            android:name=".activities.EditActivity"
             android:label="@string/title_activity_edit">
 
             <!-- This Intent filter allows the plug-in to be discovered by Tasker -->
@@ -29,8 +29,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings">
+
+        </activity>
+
         <receiver
-            android:name="com.supenta.flitchio.taskerplugin.receiver.QueryReceiver"
+            android:name=".receiver.QueryReceiver"
             android:exported="true"
             android:process=":background"
             tools:ignore="ExportedReceiver">
@@ -49,7 +55,7 @@
         </receiver>
 
         <service
-            android:name="com.supenta.flitchio.taskerplugin.services.FlitchioBindingService"
+            android:name=".services.FlitchioBindingService"
             android:exported="false"
             android:process=":background" />
     </application>

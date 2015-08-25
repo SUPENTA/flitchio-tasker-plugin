@@ -3,6 +3,7 @@
 
     <string name="app_name">Flitchio Tasker Plugin</string>
     <string name="title_activity_edit">Flitchio button</string>
+    <string name="title_activity_settings">Settings</string>
 
     <string name="button_bottom_label">Bottom trigger</string>
     <string name="button_top_label">Top trigger</string>
@@ -19,6 +20,7 @@
     <string name="snack_connection_stopped">Flitchio is disconnected from Tasker</string>
     <string name="snack_please_select_button">Please select a Flitchio button before exiting</string>
 
+    <string name="notification_flitchio_title">Flitchio Tasker Plugin</string>
     <string name="notification_flitchio_connected">Flitchio is connected to Tasker</string>
     <string name="notification_flitchio_disconnected">Flitchio is disconnected from Tasker</string>
     <string name="notification_action_disconnect">Disconnect</string>
@@ -42,6 +44,9 @@
     <string name="img_flitchio_logo_description">Flitchio logo</string>
     <string name="toolbar_flitchio_launcher">Launch Flitchio</string>
     <string name="toolbar_tasker_launcher">Launch Tasker</string>
-    <string name="notification_flitchio_title">Flitchio Tasker Plugin</string>
+    <string name="toolbar_settings">Settings</string>
+
+    <string name="settings_category_main">Main</string>
+    <string name="settings_launch_with_flitchio_title">Launch with Flitchio</string>
 
 </resources>

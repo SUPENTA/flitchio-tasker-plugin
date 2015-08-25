@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         Timber.v("Options created");
 
-        getMenuInflater().inflate(R.menu.menu_main_activity, actionMenuView.getMenu());
+        getMenuInflater().inflate(R.menu.menu_main_activity_bottom, actionMenuView.getMenu());
 
         return true;
     }

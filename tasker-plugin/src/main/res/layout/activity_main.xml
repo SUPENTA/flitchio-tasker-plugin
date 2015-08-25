@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/ToolbarPopupTheme"
+        app:theme="@style/ToolbarTheme" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,7 +40,6 @@
             android:paddingTop="48dp"
             android:scrollbars="vertical"
             android:text="@string/flitchio_tasker_plugin_welcome"
-            android:textColor="@android:color/black"
             android:textSize="@dimen/text_subhead_size" />
 
         <android.support.design.widget.CoordinatorLayout
@@ -52,7 +53,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="@color/colorPrimary"
-                android:minHeight="?attr/actionBarSize">
+                android:minHeight="?attr/actionBarSize"
+                app:popupTheme="@style/ToolbarPopupTheme"
+                app:theme="@style/ToolbarTheme">
 
                 <android.support.v7.widget.ActionMenuView
                     android:id="@+id/action_menu_view"

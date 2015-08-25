@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="PREF_LAUNCH_WITH_FLITCHIO"
+        android:title="@string/settings_launch_with_flitchio_title" />
+</PreferenceScreen>
