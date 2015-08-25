@@ -70,7 +70,7 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Timber.v("Started");
+        Timber.v("onStart by intent: " + intent);
 
         registerReceiver(disconnectReceiver, disconnectReceiver.getIntentFilter());
 

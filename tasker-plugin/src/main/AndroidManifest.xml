@@ -41,6 +41,13 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".receiver.FlitchioStatusReceiver">
+            <intent-filter>
+                <action android:name="com.supenta.flitchio.manager.communication.ACTION_FLITCHIO_CONNECTED" />
+                <action android:name="com.supenta.flitchio.manager.communication.ACTION_FLITCHIO_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name="com.supenta.flitchio.taskerplugin.services.FlitchioBindingService"
             android:exported="false"
