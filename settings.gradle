@@ -1,2 +1,2 @@
-include ':tasker-plugin',
+include ':taskerPlugin',
         ':libs:localeApi'
