@@ -59,12 +59,11 @@ public abstract class TrackSelectionAdapter<VH extends TrackSelectionAdapter.Vie
         return false;
     }
 
-    private void changeSelectionAndNotify(final int nextSelectItem) {
-        Timber.d("Previous selection: %d" +
-                "\nNext selection: %d ", selectedItem, nextSelectItem);
+    private void changeSelectionAndNotify(final int nextSelectedItem) {
+        Timber.d("Previous selection: %d. Next selection: %d ", selectedItem, nextSelectedItem);
 
         notifyItemChanged(selectedItem);
-        selectedItem = nextSelectItem;
+        selectedItem = nextSelectedItem;
         notifyItemChanged(selectedItem);
     }
 

@@ -25,6 +25,8 @@ public class FlitchioStatusReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Timber.v("onReceive: %s", intent);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (!prefs.getBoolean(SettingsFragment.PREF_TOGGLE_WITH_FLITCHIO, true)) {
             Timber.i("Toggling with Flitchio is disabled");
@@ -33,8 +35,6 @@ public class FlitchioStatusReceiver extends BroadcastReceiver {
         }
 
         final String action = intent.getAction();
-
-        Timber.d("Received with action: " + action);
 
         switch (action) {
             case ACTION_FLITCHIO_CONNECTED:
@@ -51,7 +51,6 @@ public class FlitchioStatusReceiver extends BroadcastReceiver {
                 break;
             default:
                 Timber.wtf("Invalid intent: " + intent);
-                break;
         }
     }
 }

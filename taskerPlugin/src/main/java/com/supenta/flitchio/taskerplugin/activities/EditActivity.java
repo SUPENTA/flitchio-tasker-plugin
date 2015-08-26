@@ -44,7 +44,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Timber.v("Created");
+        Timber.v("onCreate");
 
         setContentView(R.layout.activity_edit);
 
@@ -66,7 +66,7 @@ public class EditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        Timber.v("onCreateOptions");
+        Timber.v("onCreateOptionsMenu");
 
         getMenuInflater().inflate(R.menu.menu_activities_top, menu);
 
@@ -97,7 +97,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Timber.v("Resumed");
+        Timber.v("onResume");
 
         registerReceiver(serviceStatusReceiver, serviceStatusReceiver.getIntentFilter());
 
@@ -112,7 +112,7 @@ public class EditActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        Timber.v("Back pressed");
+        Timber.v("onBackPressed");
 
         if (!listAdapter.hasAtLeastOneSelection()) {
             Snackbar.make(fabDone, R.string.snack_please_select_button, Snackbar.LENGTH_SHORT).show();
@@ -124,12 +124,14 @@ public class EditActivity extends AppCompatActivity {
 
     @SuppressWarnings("UnusedParameters")
     public void onBackPressed(View view) {
+        Timber.v("onClick: onBackPressed");
+
         onBackPressed();
     }
 
     @Override
     protected void onPause() {
-        Timber.v("Paused");
+        Timber.v("onPause");
 
         unregisterReceiver(serviceStatusReceiver);
 
@@ -142,15 +144,17 @@ public class EditActivity extends AppCompatActivity {
      */
     @Override
     public void finish() {
-        Timber.v("Finished");
+        Timber.v("finish");
 
-        Bundle selectedButtonBundle = new Bundle();
+        final Bundle selectedButtonBundle = new Bundle();
         selectedButtonBundle.putString(TASKER_BUNDLE_KEY_FLITCHIO_SELECTED_BUTTON, listAdapter.getSelectedButtonId());
+        final String uiLabel = getString(listAdapter.getSelectedButtonLabelId());
 
-        Intent selectedButtonIntent = new Intent();
+        final Intent selectedButtonIntent = new Intent();
         selectedButtonIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, selectedButtonBundle);
-        selectedButtonIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB,
-                getString(listAdapter.getSelectedButtonLabelId()));
+        selectedButtonIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, uiLabel);
+
+        Timber.d("Intent set: %s", selectedButtonIntent);
 
         setResult(RESULT_OK, selectedButtonIntent);
 
@@ -173,9 +177,9 @@ public class EditActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
+            Timber.v("onReceive: %s", intent);
 
-            Timber.d("Action received: " + action);
+            String action = intent.getAction();
 
             if (action.equals(FlitchioBindingService.ACTION_SERVICE_STARTED)) {
                 Snackbar.make(fabDone, R.string.snack_connection_started, Snackbar.LENGTH_LONG).show();

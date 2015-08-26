@@ -38,7 +38,7 @@ public final class QueryReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        Timber.v("Incoming intent: " + intent);
+        Timber.v("onReceive: %s", intent);
 
         if (!com.twofortyfouram.locale.Intent.ACTION_QUERY_CONDITION.equals(intent.getAction())) {
             Timber.w("Incoming intent was not from Tasker");
@@ -50,15 +50,14 @@ public final class QueryReceiver extends BroadcastReceiver {
 
         final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
 
-        Timber.d("Extra bundle from Tasker: " + bundle);
+        Timber.d("Extra bundle from Tasker: %s", bundle);
 
         BundleScrubber.scrub(bundle);
 
         final Bundle bundleFromSelectedButton = intent.getExtras();
         final Bundle bundleFromListener = TaskerPlugin.Event.retrievePassThroughData(intent);
 
-        Timber.d("Bundle from EditActivity: %s" +
-                "\nBundle from Service: %s", bundleFromSelectedButton, bundleFromListener);
+        Timber.d("Bundle from EditActivity: %s. Bundle from Service: %s", bundleFromSelectedButton, bundleFromListener);
 
         if (bundleFromSelectedButton == null || bundleFromListener == null) {
             Timber.w("Invalid bundles");
@@ -71,8 +70,7 @@ public final class QueryReceiver extends BroadcastReceiver {
         final String buttonFromListener
                 = bundleFromListener.getString(EditActivity.TASKER_BUNDLE_KEY_FLITCHIO_SELECTED_BUTTON);
 
-        Timber.d("Button from EditActivity: %s" +
-                "\nButton from Service: %s", selectedButton, buttonFromListener);
+        Timber.d("Button from EditActivity: %s. Button from Service: %s", selectedButton, buttonFromListener);
 
         if (selectedButton == null || buttonFromListener == null) {
             Timber.w("Invalid buttons");

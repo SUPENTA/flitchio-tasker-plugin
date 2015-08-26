@@ -19,6 +19,7 @@ import android.view.View;
 
 import com.supenta.flitchio.taskerplugin.R;
 import com.supenta.flitchio.taskerplugin.services.FlitchioBindingService;
+import com.supenta.flitchio.taskerplugin.utils.PackageUtils;
 import com.supenta.flitchio.taskerplugin.utils.ServiceUtils;
 
 import timber.log.Timber;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Timber.v("Created");
+        Timber.v("onCreate");
 
         setContentView(R.layout.activity_main);
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        Timber.v("Options created");
+        Timber.v("onCreateOptionsMenu");
 
         getMenuInflater().inflate(R.menu.menu_main_activity_bottom, actionMenuView.getMenu());
         getMenuInflater().inflate(R.menu.menu_activities_top, menu);
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Timber.v("Resumed");
+        Timber.v("onResume");
 
         registerReceiver(serviceStatusReceiver, serviceStatusReceiver.getIntentFilter());
 
@@ -102,18 +103,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent launchIntent;
         switch (item.getItemId()) {
             case R.id.launch_flitchio:
                 Timber.d("The Flitchio Manager button was pressed");
 
-                launchIntent = getPackageManager().getLaunchIntentForPackage(PACKAGE_NAME_FLITCHIO_MANAGER);
-                break;
+                PackageUtils.launchFromPackageName(this, PACKAGE_NAME_FLITCHIO_MANAGER);
+                return true;
             case R.id.launch_tasker:
                 Timber.d("The Tasker button was pressed");
 
-                launchIntent = getPackageManager().getLaunchIntentForPackage(PACKAGE_NAME_TASKER);
-                break;
+                PackageUtils.launchFromPackageName(this, PACKAGE_NAME_TASKER);
+                return true;
             case R.id.settings:
                 Timber.d("The Settings button was pressed");
 
@@ -124,19 +124,11 @@ public class MainActivity extends AppCompatActivity {
 
                 return super.onOptionsItemSelected(item);
         }
-
-        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        Timber.i("Launching: " + launchIntent);
-
-        startActivity(launchIntent);
-
-        return true;
     }
 
     @Override
     public void onPause() {
-        Timber.v("Paused");
+        Timber.v("onPause");
 
         unregisterReceiver(serviceStatusReceiver);
 
@@ -151,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @SuppressWarnings("UnusedParameters")
     public void startBindingService(View view) {
-        Timber.v("Service start button was clicked");
+        Timber.v("onClick: startBindingService");
 
         if (!ServiceUtils.isServiceRunning(this, FlitchioBindingService.class)) {
             startService(new Intent(this, FlitchioBindingService.class));
@@ -186,9 +178,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
+            Timber.v("onReceive: %s", intent);
 
-            Timber.d("Action received: " + action);
+            final String action = intent.getAction();
 
             if (action.equals(FlitchioBindingService.ACTION_SERVICE_STARTED)) {
                 Snackbar.make(toolbarBottom, R.string.snack_connection_started, Snackbar.LENGTH_LONG).show();
