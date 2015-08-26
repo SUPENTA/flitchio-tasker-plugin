@@ -51,7 +51,7 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
     public void onCreate() {
         super.onCreate();
 
-        Timber.v("Created");
+        Timber.v("onCreate");
 
         disconnectReceiver = new DisconnectReceiver();
         notification = new ServiceNotification(this);
@@ -69,7 +69,7 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Timber.v("onStart by intent: " + intent);
+        Timber.v("onStartCommand: " + intent);
 
         registerReceiver(disconnectReceiver, disconnectReceiver.getIntentFilter());
 
@@ -81,7 +81,7 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     @Override
     public void onDestroy() {
-        Timber.v("Destroyed");
+        Timber.v("onDestroy");
 
         unregisterReceiver(disconnectReceiver);
 
@@ -97,14 +97,14 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
     @Override
     public IBinder onBind(Intent intent) {
-        Timber.v("Binding from: " + intent);
+        Timber.v("onBind: %s", intent);
 
         return null;
     }
 
     @Override
     public void onFlitchioButtonEvent(InputElement.Button button, ButtonEvent buttonEvent) {
-        Timber.d("Button pressed: " + button.name);
+        Timber.v("onFlitchioButtonEvent: %s", button.name);
 
         sendToTasker(button.name);
     }
@@ -147,7 +147,7 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Timber.d("Action received: " + intent.getAction());
+            Timber.v("onReceive: " + intent);
 
             stopSelf();
         }
