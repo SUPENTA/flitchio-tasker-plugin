@@ -1,10 +1,7 @@
 package com.supenta.flitchio.taskerplugin.activities;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.supenta.flitchio.taskerplugin.R;
+import com.supenta.flitchio.taskerplugin.receiver.ServiceStatusReceiverTemplate;
 import com.supenta.flitchio.taskerplugin.services.FlitchioBindingService;
 import com.supenta.flitchio.taskerplugin.utils.PackageUtils;
 import com.supenta.flitchio.taskerplugin.utils.ServiceUtils;
@@ -155,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
      * connects or disconnects as well as hiding and showing the
      * {@link R.id#fab_launch_binding_service}.
      */
-    private class ServiceStatusReceiver extends BroadcastReceiver {
+    private class ServiceStatusReceiver extends ServiceStatusReceiverTemplate {
 
         /**
          * The approximate time it will take for the Snackbar to dismiss (in ms). This is used because
@@ -168,37 +166,26 @@ public class MainActivity extends AppCompatActivity {
          */
         private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
-        private IntentFilter getIntentFilter() {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(FlitchioBindingService.ACTION_SERVICE_STARTED);
-            filter.addAction(FlitchioBindingService.ACTION_SERVICE_STOPPED);
-
-            return filter;
+        @Override
+        protected void onServiceStarted() {
+            Snackbar.make(toolbarBottom, R.string.snack_connection_started, Snackbar.LENGTH_LONG).show();
+            mainThreadHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fabStartService.hide();
+                }
+            }, APPROXIMATE_SNACKBAR_LONG_LENGTH);
         }
 
         @Override
-        public void onReceive(Context context, Intent intent) {
-            Timber.v("onReceive: %s", intent);
-
-            final String action = intent.getAction();
-
-            if (action.equals(FlitchioBindingService.ACTION_SERVICE_STARTED)) {
-                Snackbar.make(toolbarBottom, R.string.snack_connection_started, Snackbar.LENGTH_LONG).show();
-                mainThreadHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        fabStartService.hide();
-                    }
-                }, APPROXIMATE_SNACKBAR_LONG_LENGTH);
-            } else if (action.equals(FlitchioBindingService.ACTION_SERVICE_STOPPED)) {
-                Snackbar.make(toolbarBottom, R.string.snack_connection_stopped, Snackbar.LENGTH_LONG).show();
-                mainThreadHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        fabStartService.show();
-                    }
-                }, APPROXIMATE_SNACKBAR_LONG_LENGTH);
-            }
+        protected void onServiceStopped() {
+            Snackbar.make(toolbarBottom, R.string.snack_connection_stopped, Snackbar.LENGTH_LONG).show();
+            mainThreadHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fabStartService.show();
+                }
+            }, APPROXIMATE_SNACKBAR_LONG_LENGTH);
         }
     }
 }
