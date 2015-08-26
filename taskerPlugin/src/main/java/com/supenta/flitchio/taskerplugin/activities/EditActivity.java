@@ -1,9 +1,6 @@
 package com.supenta.flitchio.taskerplugin.activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +14,7 @@ import android.view.View;
 
 import com.supenta.flitchio.taskerplugin.R;
 import com.supenta.flitchio.taskerplugin.lists.ButtonListAdapter;
+import com.supenta.flitchio.taskerplugin.receiver.ServiceStatusReceiverTemplate;
 import com.supenta.flitchio.taskerplugin.services.FlitchioBindingService;
 import com.supenta.flitchio.taskerplugin.utils.ServiceUtils;
 
@@ -165,27 +163,16 @@ public class EditActivity extends AppCompatActivity {
      * This is responsible for providing feedback to the user when the {@link FlitchioBindingService}
      * connects or disconnects.
      */
-    private class ServiceStatusReceiver extends BroadcastReceiver {
+    private class ServiceStatusReceiver extends ServiceStatusReceiverTemplate {
 
-        private IntentFilter getIntentFilter() {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(FlitchioBindingService.ACTION_SERVICE_STARTED);
-            filter.addAction(FlitchioBindingService.ACTION_SERVICE_STOPPED);
-
-            return filter;
+        @Override
+        protected void onServiceStarted() {
+            Snackbar.make(fabDone, R.string.snack_connection_started, Snackbar.LENGTH_LONG).show();
         }
 
         @Override
-        public void onReceive(Context context, Intent intent) {
-            Timber.v("onReceive: %s", intent);
-
-            String action = intent.getAction();
-
-            if (action.equals(FlitchioBindingService.ACTION_SERVICE_STARTED)) {
-                Snackbar.make(fabDone, R.string.snack_connection_started, Snackbar.LENGTH_LONG).show();
-            } else if (action.equals(FlitchioBindingService.ACTION_SERVICE_STOPPED)) {
-                Snackbar.make(fabDone, R.string.snack_connection_stopped, Snackbar.LENGTH_LONG).show();
-            }
+        protected void onServiceStopped() {
+            Snackbar.make(fabDone, R.string.snack_connection_stopped, Snackbar.LENGTH_LONG).show();
         }
     }
 }
