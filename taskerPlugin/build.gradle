@@ -1,6 +1,3 @@
-apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
-
 buildscript {
     repositories {
         maven {
@@ -13,6 +10,9 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
+
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 repositories {
     maven {
