@@ -27,14 +27,12 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_done"
+            style="@style/Fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
             android:onClick="onBackPressed"
-            android:src="@drawable/ic_fab_check_white"
-            app:elevation="@dimen/fab_elevation"
-            app:pressedTranslationZ="@dimen/fab_elevation_pressed" />
+            android:src="@drawable/ic_fab_check_white" />
     </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>
