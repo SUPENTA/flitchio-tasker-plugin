@@ -74,17 +74,12 @@
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_launch_binding_service"
+                style="@style/FabBottomToolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="@dimen/fab_margin_bottom_toolbar"
-                android:layout_marginLeft="@dimen/fab_margin"
-                android:layout_marginRight="@dimen/fab_margin"
-                android:layout_marginTop="48dp"
                 android:onClick="startBindingService"
-                android:src="@drawable/ic_fab_power_white"
-                app:elevation="@dimen/fab_elevation"
-                app:pressedTranslationZ="@dimen/fab_elevation_pressed" />
+                android:src="@drawable/ic_fab_power_white" />
         </android.support.design.widget.CoordinatorLayout>
     </RelativeLayout>
 
