@@ -30,23 +30,30 @@
             android:src="@drawable/flitchio_logo" />
 
 
-        <TextView
-            android:id="@+id/welcome_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/img_flitchio_logo"
-            android:paddingEnd="@dimen/layout_standard_inner_padding"
-            android:paddingStart="@dimen/layout_standard_inner_padding"
-            android:paddingTop="48dp"
-            android:scrollbars="vertical"
-            android:text="@string/flitchio_tasker_plugin_welcome"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_subhead_size" />
+
 
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/img_flitchio_logo">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="?attr/actionBarSize">
+                <TextView
+                    android:id="@+id/welcome_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/layout_standard_inner_padding"
+                    android:paddingStart="@dimen/layout_standard_inner_padding"
+                    android:paddingTop="48dp"
+                    android:scrollbars="vertical"
+                    android:text="@string/flitchio_tasker_plugin_welcome"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_subhead_size" />
+            </ScrollView>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_bottom"
