@@ -100,3 +100,6 @@ build/
 # Ignore Gradle GUI config
 gradle-app.setting
 !gradle/wrapper/gradle-wrapper.jar
+
+# Local config for signing
+localconfig.properties

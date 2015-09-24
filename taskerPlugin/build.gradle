@@ -34,11 +34,24 @@ android {
         versionCode 601
     }
 
+    signingConfigs {
+        supenta {
+            def localProperties = new Properties()
+            localProperties.load(project.rootProject.file('localconfig.properties').newDataInputStream())
+
+            keyAlias localProperties."keystore.alias"
+            keyPassword localProperties."keystore.keyPassword"
+            storeFile file(localProperties."keystore.path")
+            storePassword localProperties."keystore.storePassword"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.pro'
+            signingConfig signingConfigs.supenta
 
             resValue "string", "app_name", '"Flitchio Tasker Plugin"'
         }
