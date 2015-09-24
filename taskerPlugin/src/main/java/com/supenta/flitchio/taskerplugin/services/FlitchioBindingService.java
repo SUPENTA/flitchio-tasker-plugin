@@ -10,8 +10,9 @@ import android.os.IBinder;
 
 import com.supenta.flitchio.sdk.ButtonEvent;
 import com.supenta.flitchio.sdk.FlitchioController;
-import com.supenta.flitchio.sdk.FlitchioListener;
+import com.supenta.flitchio.sdk.FlitchioEventListener;
 import com.supenta.flitchio.sdk.FlitchioManagerDependencyException;
+import com.supenta.flitchio.sdk.FlitchioStatusListener;
 import com.supenta.flitchio.sdk.InputElement;
 import com.supenta.flitchio.sdk.JoystickEvent;
 import com.supenta.flitchio.taskerplugin.activities.EditActivity;
@@ -23,10 +24,10 @@ import timber.log.Timber;
  * This Service is used in order to bind to the Flitchio SDK since we want constant binding to
  * execute Tasker tasks. When a Flitchio Button is triggered, we send that over to Tasker and "ask"
  * it to make a query using {@link com.supenta.flitchio.taskerplugin.receiver.QueryReceiver}.
- * <p/>
+ * <p>
  * We use a {@link ServiceNotification} in order to keep the Service from being killed by the system.
  */
-public class FlitchioBindingService extends Service implements FlitchioListener {
+public class FlitchioBindingService extends Service implements FlitchioStatusListener, FlitchioEventListener {
 
     public static final String ACTION_SERVICE_STARTED
             = "com.supenta.flitchio.taskerplugin.ACTION_SERVICE_STARTED";
@@ -74,7 +75,7 @@ public class FlitchioBindingService extends Service implements FlitchioListener 
         registerReceiver(disconnectReceiver, disconnectReceiver.getIntentFilter());
 
         notification.showDisconnectedNotification();
-        flitchio.onResume(this);
+        flitchio.onResume(this, this);
 
         return START_STICKY;
     }
