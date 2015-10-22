@@ -11,10 +11,10 @@ import android.os.IBinder;
 import com.supenta.flitchio.sdk.ButtonEvent;
 import com.supenta.flitchio.sdk.FlitchioController;
 import com.supenta.flitchio.sdk.FlitchioEventListener;
-import com.supenta.flitchio.sdk.FlitchioManagerDependencyException;
 import com.supenta.flitchio.sdk.FlitchioStatusListener;
 import com.supenta.flitchio.sdk.InputElement;
 import com.supenta.flitchio.sdk.JoystickEvent;
+import com.supenta.flitchio.sdk.Status;
 import com.supenta.flitchio.taskerplugin.activities.EditActivity;
 import com.supenta.flitchio.taskerplugin.utils.TaskerPlugin;
 
@@ -24,10 +24,10 @@ import timber.log.Timber;
  * This Service is used in order to bind to the Flitchio SDK since we want constant binding to
  * execute Tasker tasks. When a Flitchio Button is triggered, we send that over to Tasker and "ask"
  * it to make a query using {@link com.supenta.flitchio.taskerplugin.receiver.QueryReceiver}.
- * <p>
+ * <p/>
  * We use a {@link ServiceNotification} in order to keep the Service from being killed by the system.
  */
-public class FlitchioBindingService extends Service implements FlitchioStatusListener, FlitchioEventListener {
+public class FlitchioBindingService extends Service implements FlitchioEventListener {
 
     public static final String ACTION_SERVICE_STARTED
             = "com.supenta.flitchio.taskerplugin.ACTION_SERVICE_STARTED";
@@ -57,13 +57,25 @@ public class FlitchioBindingService extends Service implements FlitchioStatusLis
         disconnectReceiver = new DisconnectReceiver();
         notification = new ServiceNotification(this);
         flitchio = FlitchioController.getInstance(this);
-        try {
-            Timber.v("Creating Flitchio");
 
-            flitchio.onCreate();
-        } catch (FlitchioManagerDependencyException e) {
-            Timber.e(e, "Flitchio could not be created");
-        }
+        Timber.v("Creating Flitchio");
+        flitchio.onCreate(new FlitchioStatusListener() {
+            @Override
+            public void onFlitchioStatusChanged(Status status) {
+                if (status.code == Status.BINDING_FAILED) {
+                    Timber.e("Flitchio could not be created, reason: " + status.failureReason);
+
+                } else if (status.code == Status.CONNECTED) {
+                    Timber.i("Flitchio is now connected");
+                    notification.showConnectedNotification();
+
+                } else if (status.code == Status.DISCONNECTED) {
+                    Timber.i("Flitchio is now disconnected");
+                    notification.showDisconnectedNotification();
+
+                }
+            }
+        });
 
         sendBroadcast(new Intent(ACTION_SERVICE_STARTED));
     }
@@ -75,7 +87,7 @@ public class FlitchioBindingService extends Service implements FlitchioStatusLis
         registerReceiver(disconnectReceiver, disconnectReceiver.getIntentFilter());
 
         notification.showDisconnectedNotification();
-        flitchio.onResume(this, this);
+        flitchio.onResume(this);
 
         return START_STICKY;
     }
@@ -127,17 +139,6 @@ public class FlitchioBindingService extends Service implements FlitchioStatusLis
     @Override
     public void onFlitchioJoystickEvent(InputElement.Joystick joystick, JoystickEvent joystickEvent) {
 
-    }
-
-    @Override
-    public void onFlitchioStatusChanged(boolean isConnected) {
-        Timber.i("Flitchio is now " + (isConnected ? "connected" : "disconnected"));
-
-        if (isConnected) {
-            notification.showConnectedNotification();
-        } else {
-            notification.showDisconnectedNotification();
-        }
     }
 
     private class DisconnectReceiver extends BroadcastReceiver {
