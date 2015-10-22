@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.supenta.flitchio.taskerplugin">
+<manifest
+    package="com.supenta.flitchio.taskerplugin"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".FlitchioTaskerPluginApp"
@@ -16,8 +17,8 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -27,7 +28,7 @@
 
             <!-- This Intent filter allows the plug-in to be discovered by Tasker -->
             <intent-filter>
-                <action android:name="net.dinglisch.android.tasker.ACTION_EDIT_EVENT" />
+                <action android:name="net.dinglisch.android.tasker.ACTION_EDIT_EVENT"/>
             </intent-filter>
         </activity>
 
@@ -45,21 +46,22 @@
 
             <!-- This Intent filter allows the plug-in to discovered by Tasker and be queried -->
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION" />
+                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION"/>
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receiver.FlitchioStatusReceiver">
+        <receiver
+            android:name=".receiver.FlitchioStatusReceiver"
+            android:permission="com.supenta.flitchio.manager.PERMISSION_BROADCAST_STATUS">
             <intent-filter>
-                <action android:name="com.supenta.flitchio.manager.communication.ACTION_FLITCHIO_CONNECTED" />
-                <action android:name="com.supenta.flitchio.manager.communication.ACTION_FLITCHIO_DISCONNECTED" />
+                <action android:name="com.supenta.flitchio.manager.ACTION_FLITCHIO_STATUS_CHANGED"/>
             </intent-filter>
         </receiver>
 
         <service
             android:name=".services.FlitchioBindingService"
             android:exported="false"
-            android:process=":background" />
+            android:process=":background"/>
     </application>
 
 </manifest>
