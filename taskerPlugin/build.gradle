@@ -30,8 +30,8 @@ android {
         minSdkVersion 17
         targetSdkVersion 22
 
-        versionName "0.6.2"
-        versionCode 602
+        versionName "0.6.3"
+        versionCode 603
     }
 
     buildTypes {
